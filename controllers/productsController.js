@@ -9,12 +9,13 @@ export async function postNew(req, res, next) {
   try {
     const userId = req.session.userId
     const productData = req.body
-
+    console.log(req.file)
     // creamos una instancia de producto en memoria
     const product = new Product(productData)
     product.owner = userId
     product.price = Math.trunc(product.price * 100) // store only 2 decimals
     product.tags = product.tags?.filter(tag => !!tag) // filter blank tags
+    product.image = req.file.filename// añadimos la imagen
 
     // la persistimos en la BD
     const savedProduct = await product.save()
