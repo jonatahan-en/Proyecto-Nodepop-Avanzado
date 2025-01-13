@@ -23,7 +23,7 @@
       <% products.forEach(product => { %>
         <tr>
           <td><%= product.name %></td>
-          <td style="text-align: right"><%= product.price / 100 %>€</td>
+          <td style="text-align: right"><%= product.price / 100  %>€</td>
           <td>
             <img 
             src="<%= product.image ? `/imagenes/${product.image}` :"https://placehold.co/100" %>" 

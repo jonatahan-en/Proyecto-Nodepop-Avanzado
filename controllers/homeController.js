@@ -3,32 +3,35 @@ import { Product } from '../models/index.js'
 export async function index(req, res, next) {
   try {
     const userId = req.session.userId
+    //const filterPrice = req.query.price
 
     if (userId) {
       const pageSize = 3
       const skip = parseInt(req.query.skip) || 0
       const limit = parseInt(req.query.limit) || pageSize
       const sort = req.query.sort || '_id'
-      const price = req.query.price
+      const filterPrice = req.query.price
+      const filterName = req.query.name
+      const filterTag = req.query.tag
+  
 
-      const filters = {
-        owner: userId
-      }
+      const filters = {owner: userId}
 
-      if (req.query.tag) filters.tags = { $in: req.query.tag }
+      if ( typeof filterTag !== 'undefined' ) 
+        filters.tags = filterTag
 
-      if (typeof price !== 'undefined' && price !== '-') {
-        if (price.indexOf('-') === -1) filters.price = price
+      if (typeof filterPrice !== 'undefined' && filterPrice !== '-') {
+        if (filterPrice.indexOf('-') === -1) filters.price = filterPrice
         else {
-          filters.price = {}
-          const range = price.split('-')
+          filters.filterPrice = {}
+          const range = filterName.split('-')
           if (range[0] !== '') filters.price.$gte = range[0]
           if (range[1] !== '') filters.price.$lte = range[1]
         }
       }
 
-      if (typeof req.query.nombre !== 'undefined') {
-        filters.nombre = new RegExp('^' + req.query.nombre, 'i')
+      if (typeof filterName !== 'undefined') {
+        filters.name = new RegExp('^' + filterName, 'i')
       }
 
       const totalCount = await Product.find(filters).countDocuments()
