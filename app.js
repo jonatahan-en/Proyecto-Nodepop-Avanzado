@@ -6,6 +6,7 @@ import connectMongoose from './lib/connectMongoose.js'
 import * as sessionManager from './lib/sessionManager.js'
 import {homeController, loginController, productsController} from './controllers/index.js'
 import upload from './lib/uploadConfigure.js'
+import i18n from './lib/i18nConfigure.js'
 
 // espero a que se conecte a la base de datos
 console.log('Connecting to DB...')
@@ -27,9 +28,10 @@ app.use(cookieParser())
 app.use(express.static('public'))
 
 /**
- * Application routes
+ * website routes
  */
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
+app.use(i18n.init)
 
 app.get('/', homeController.index)
 // session

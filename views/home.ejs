@@ -4,20 +4,20 @@
 
   <% // contenido para usuarios NO logados %>
   <% if (!session.userId) { %>
-    <p>Para ver el contenido debe hacer <a href="/login">login</a></p>
+    <p><%= __("To see the content you must do" )%>  <a href="/login"><%= __( "login" ) %></a></p>
   <% } %>
 
   <% // contenido para usuarios logados %>
   <% if (session.userId) { %>
-    <h1>My Products</h1>
+    <h1><%= __("My Products") %></h1>
 
     <table class="table table-hover">
       <thead><tr>
-        <th>Name</th>
-        <th style="text-align: right">Price</th>
-        <th>Image</th>
-        <th>Tags</th>
-        <th>Actions</th>
+        <th><%= __("Name") %></th>
+        <th style="text-align: right"><%= __("Price") %></th>
+        <th><%= __("Image") %></th>
+        <th><%= __("Tags") %></th>
+        <th><%= __("Actions") %></th>
       </tr></thead>
       <tbody>
       <% products.forEach(product => { %>
@@ -28,7 +28,8 @@
             <img 
             src="<%= product.image ? `/imagenes/${product.image}` :"https://placehold.co/100" %>" 
             alt="image"
-            width="100"></td>
+            width= 100 
+            height= 100 " ></td>
           <td><%= product.tags.join(', ') %></td>
 
           <td><a
@@ -41,21 +42,21 @@
       </tbody>
     </table>
     <p>
-      total <%= totalCount %> products.
+      <%= __("total") %> <%= totalCount %> <%= __("products.") %>
     </p>
     <p>
       <!-- prev page -->
       <% if (skipPrev >= 0) { %>
-        <a href="?limit=<%= pageSize %>&skip=<%= skipPrev %>">prev</a>
+        <a href="?limit=<%= pageSize %>&skip=<%= skipPrev %>"><%= __("prev") %></a>
       <% } else { %>
-        <span style="color: lightgray;">prev</span>
+        <span style="color: lightgray;"><%= __("prev") %></span>
       <% } %>
 
       <!-- next page -->
       <% if (skipNext < totalCount) { %>
-        <a href="?limit=<%= pageSize %>&skip=<%= skipNext %>">next</a>
+        <a href="?limit=<%= pageSize %>&skip=<%= skipNext %>"><%= __("next") %></a>
       <% } else { %>
-        <span style="color: lightgray;">next</span>
+        <span style="color: lightgray;"><%= __("next") %></span>
       <% } %>
     </p>
   <% } %>
@@ -63,7 +64,7 @@
 
 <script>
   function confirmDelete(name, productId) {
-      if (confirm(`Estas seguro que quieres eliminar el producto ${name}?`)) {
+      if (confirm(`<%= __("Are you sure you want to delete the product") %> ${name}?`)) {
           window.location.href = `/products/delete/${productId}`;
       }
   }

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-import 'dotenv/config'; // alternative: node --require dotenv/config server.js
-
+import 'dotenv/config';
+ // Alternative node : node --require dotenv/config server.js
+// Alternativa node 22: node --env-file .env server.js
 /**
  * Main start
  */
