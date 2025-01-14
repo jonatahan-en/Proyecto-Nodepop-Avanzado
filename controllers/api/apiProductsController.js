@@ -3,7 +3,7 @@ import Product from '../../models/Product.js'
 export  async function apiProductsList(req, res, next) {
     try {
 
-            const pageSize = 3
+            const pageSize = 10
             const skip = parseInt(req.query.skip) || 0
             const limit = parseInt(req.query.limit) || pageSize
             const sort = req.query.sort || '_id'
@@ -36,9 +36,12 @@ export  async function apiProductsList(req, res, next) {
         if (typeof filterName !== 'undefined') {
             filters.name = new RegExp('^' + filterName, 'i')
         }
-    
-        const products = await Product.list(filters, skip, limit, sort, fields)
-        const productCount = await Product.countDocuments()
+
+        const [products, productCount] = await Promise.all([
+        Product.list(filters, skip, limit, sort, fields),
+        Product.countDocuments(filters)
+        ])
+
         res.json({ 
             results: products ,
             count: productCount
@@ -69,9 +72,24 @@ export async function apiProductNew(req, res, next) {
         // guardar product
         const savedProduct = await product.save()
 
-        res.json({result: savedProduct})
+        res.status(201).json({result: savedProduct})
     } catch (error) {
         next(error)
     }
     
+}
+
+export async function apiProductUpdate (req,res,next){
+    try {
+        const productId = req.params.productId
+        const productData = req.body
+        productData.image = req.file?.filename
+
+        const updateProduct = await Product.findByIdAndUpdate(productId, productData,{
+            new: true// para obtener el documento actualizado
+        })
+        res.json({ result: updateProduct })
+    } catch (error) {
+        next(error)
+    }
 }

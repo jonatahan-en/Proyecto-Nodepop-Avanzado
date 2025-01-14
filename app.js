@@ -32,9 +32,11 @@ app.use(express.static('public'))
 /**
  * API routes
  */
-app.get("/api/products", apiProductsController.apiProductsList)
-app.get("/api/products/:productId", apiProductsController.apiProductGetOne)
-app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)
+
+app.get("/api/products", apiProductsController.apiProductsList)//lista productos
+app.get("/api/products/:productId", apiProductsController.apiProductGetOne)//buscar un producto
+app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)//nuevo producto
+app.put("/api/products/:productId",upload.single("image"), apiProductsController.apiProductUpdate)//actualizar producto
 
 
 /**
