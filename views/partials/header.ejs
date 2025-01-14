@@ -14,7 +14,7 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
       <div class="col-md-3 mb-2 mb-md-0">
         <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-          <%= siteTitle %>
+          <h1><%= siteTitle  %></h1>
         </a>
       </div>
 
@@ -27,8 +27,19 @@
         <li><a href="#" class="nav-link px-2"><%= __("About") %></a></li>
       </ul>
 
+      <%# lang selector link  es y en %>
+      <div  >
+        <% getLocales().forEach(lang =>  { %>
+          <a href="/change-locale/<%= lang %>"
+            class="btn  me-2">
+            <img src="/image/<%= lang %>.png" alt="<%= lang %>">
+          </a>
+          <%}) %>
+      </div>
+
+      <%# login / logout %>
       <div class="col-md-3 text-end">
-        <% if (!session.userId) { %>
+        <% if (!session.userId)  { %>
           <a href="/login" class="btn btn-outline-primary me-2"><%= __("Login") %></a>
         <% } else { %>
           <small><%= session.userName %></small>

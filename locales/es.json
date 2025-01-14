@@ -22,10 +22,10 @@
 	"Password": "Contraseña",
 	"Submit": "Enviar",
 	"Are you sure you want to delete the product": "¿Estás seguro de que quieres eliminar el producto?",
-	"For userId:": "Identificacion de usuario:",
 	"image": "imagen",
 	"Motor": "Motor",
 	"Lifestyle": "Estilo de Vida",
 	"Mobile": "Móvil",
-	"Work": "Trabajo"
+	"Work": "Trabajo",
+	"User name:": "Nombre Usuario:"
 }
