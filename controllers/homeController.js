@@ -15,7 +15,7 @@ export async function index(req, res, next) {
       const filterTag = req.query.tag
   
 
-      const filters = {owner: userId}
+      const filters = { owner: userId }
 
       if ( typeof filterTag !== 'undefined' ) 
         filters.tags = filterTag

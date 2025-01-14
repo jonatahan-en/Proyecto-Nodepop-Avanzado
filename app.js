@@ -8,6 +8,7 @@ import {homeController, loginController, productsController} from './controllers
 import upload from './lib/uploadConfigure.js'
 import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
+import * as apiProductsController from './controllers/api/apiProductsController.js'
 
 // espero a que se conecte a la base de datos
 console.log('Connecting to DB...')
@@ -20,13 +21,18 @@ const app = express()
 app.set('views', 'views')
 app.set('view engine', 'ejs')
 
-app.locals.siteTitle = 'NodePop'
+app.locals.siteTitle = 'Nodepop'
 
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static('public'))
+
+/**
+ * API routes
+ */
+app.get("/api/products", apiProductsController.apiProductsList)
 
 
 /**
