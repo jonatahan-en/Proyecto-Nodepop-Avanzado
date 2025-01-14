@@ -11,7 +11,7 @@ export  async function apiProductsList(req, res, next) {
             const filterName = req.query.name
             const filterTag = req.query.tag
             const fields = req.query.fields
-            
+
         //ejemplos de uso de la api
         //http://localhost:3000/api/products/?name=watches&price350
         //http://localhost:3000/api/products/?limit=2&skip=2
@@ -38,9 +38,40 @@ export  async function apiProductsList(req, res, next) {
         }
     
         const products = await Product.list(filters, skip, limit, sort, fields)
-        res.json({ result: products })
+        const productCount = await Product.countDocuments()
+        res.json({ 
+            results: products ,
+            count: productCount
+        })
         
     } catch (error) {
         next(error)
     }
+}
+
+export async function apiProductGetOne(req, res, next) {
+    try {
+        const productId = req.params.productId
+        const product = await Product.findById(productId)
+        res.json({ result: product })
+    } catch (error) {
+        next(error)
+    }
+    
+}
+
+export async function apiProductNew(req, res, next) {
+    try {
+        const productData = req.body
+        // create product instance in memory
+        const product = new Product(productData)
+        product.image = req.file?.filename// añadimos la imagen
+        // guardar product
+        const savedProduct = await product.save()
+
+        res.json({result: savedProduct})
+    } catch (error) {
+        next(error)
+    }
+    
 }

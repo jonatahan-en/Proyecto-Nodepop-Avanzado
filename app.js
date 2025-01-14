@@ -33,6 +33,8 @@ app.use(express.static('public'))
  * API routes
  */
 app.get("/api/products", apiProductsController.apiProductsList)
+app.get("/api/products/:productId", apiProductsController.apiProductGetOne)
+app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)
 
 
 /**
@@ -64,6 +66,12 @@ app.use((req, res, next) => {
 // error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
+// Api error ,mandar la respuesta en formato json
+if (req.url.startsWith('/api/')) {
+  res.json({ error: err.message })
+  return
+}
+  
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}

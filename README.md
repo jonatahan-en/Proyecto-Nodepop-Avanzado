@@ -33,6 +33,28 @@ To start in development mode:
 ```sh
 npm run dev
 ```
+## API
+```sh
+Base URL: http://localhost:3000/api
+```
+GET /api/products
+````json
+"result": [
+        {
+            "_id": "6782ff2aeea3da64a06dccf5",
+            "name": "watches",
+            "price": 350,
+            "image": "watch t55.jpg",
+            "tags": [
+                "mobile"
+            ],
+            "owner": "6782ff2aeea3da64a06dccee",
+            "__v": 0
+        },
+    ],
+    "count": 7
+
+```
 
 ## References
 
