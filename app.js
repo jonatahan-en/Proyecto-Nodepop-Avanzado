@@ -37,7 +37,7 @@ app.get("/api/products", apiProductsController.apiProductsList)//lista productos
 app.get("/api/products/:productId", apiProductsController.apiProductGetOne)//buscar un producto
 app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)//nuevo producto
 app.put("/api/products/:productId",upload.single("image"), apiProductsController.apiProductUpdate)//actualizar producto
-
+app.delete("/api/products/:productId",apiProductsController. apiProductDelete)
 
 /**
  * website routes

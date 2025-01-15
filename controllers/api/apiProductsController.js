@@ -37,10 +37,11 @@ export  async function apiProductsList(req, res, next) {
             filters.name = new RegExp('^' + filterName, 'i')
         }
 
-        const [products, productCount] = await Promise.all([
-        Product.list(filters, skip, limit, sort, fields),
-        Product.countDocuments(filters)
-        ])
+        //lista de productos
+    const [products, productCount] = await Promise.all([
+    Product.list(filters, skip, limit, sort, fields),
+    Product.countDocuments(filters)
+    ])
 
         res.json({ 
             results: products ,
@@ -51,7 +52,7 @@ export  async function apiProductsList(req, res, next) {
         next(error)
     }
 }
-
+// Busca un producto
 export async function apiProductGetOne(req, res, next) {
     try {
         const productId = req.params.productId
@@ -62,7 +63,7 @@ export async function apiProductGetOne(req, res, next) {
     }
     
 }
-
+// Nuevo producto
 export async function apiProductNew(req, res, next) {
     try {
         const productData = req.body
@@ -78,7 +79,7 @@ export async function apiProductNew(req, res, next) {
     }
     
 }
-
+// Modifica un producto
 export async function apiProductUpdate (req,res,next){
     try {
         const productId = req.params.productId
@@ -92,4 +93,16 @@ export async function apiProductUpdate (req,res,next){
     } catch (error) {
         next(error)
     }
+}
+// Borra el producto
+export async function apiProductDelete(req, res, next) {
+    try {
+        const productId = req.params.productId
+        await Product.deleteOne({ _id: productId})
+        res.json()
+    } catch (error) {
+        next(error)
+    }
+
+    
 }
