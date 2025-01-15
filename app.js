@@ -9,6 +9,7 @@ import upload from './lib/uploadConfigure.js'
 import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
 import * as apiProductsController from './controllers/api/apiProductsController.js'
+import swaggerMiddleware from './lib/swaggerMiddleware.js'
 
 // espero a que se conecte a la base de datos
 console.log('Connecting to DB...')
@@ -32,12 +33,13 @@ app.use(express.static('public'))
 /**
  * API routes
  */
-
+// CRUD operation for products resource
 app.get("/api/products", apiProductsController.apiProductsList)//lista productos
 app.get("/api/products/:productId", apiProductsController.apiProductGetOne)//buscar un producto
 app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)//nuevo producto
 app.put("/api/products/:productId",upload.single("image"), apiProductsController.apiProductUpdate)//actualizar producto
 app.delete("/api/products/:productId",apiProductsController. apiProductDelete)
+
 
 /**
  * website routes
@@ -45,12 +47,13 @@ app.delete("/api/products/:productId",apiProductsController. apiProductDelete)
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
 app.use(i18n.init)
 app.get("/change-locale/:locale", langController.changeLocale)
-
 app.get('/', homeController.index)
 // session
 app.get('/login', loginController.indexLogin)
 app.post('/login', loginController.postLogin)
 app.all('/logout', loginController.logout)
+app.get('/api-doc', swaggerMiddleware)
+
 { // products
   const productsRouter = express.Router()
   // productsRouter.use(session.guard) -- optional
