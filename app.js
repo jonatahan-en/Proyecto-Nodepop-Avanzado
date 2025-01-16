@@ -10,8 +10,10 @@ import i18n from './lib/i18nConfigure.js'
 import * as langController from './controllers/langController.js'
 import * as apiProductsController from './controllers/api/apiProductsController.js'
 import swaggerMiddleware from './lib/swaggerMiddleware.js'
+import * as apiLoginController from './controllers/api/apiLoginController.js'
 
-// espero a que se conecte a la base de datos
+
+// espero a que se conecte a la base de dato
 console.log('Connecting to DB...')
 const { connection: mongooseConnection } = await connectMongoose()
 console.log('Conectado a MongoDB en', mongooseConnection.name)
@@ -33,6 +35,7 @@ app.use(express.static('public'))
 /**
  * API routes
  */
+app.post("/api/login", apiLoginController.loginJWT)
 // CRUD operation for products resource
 app.get("/api/products", apiProductsController.apiProductsList)//lista productos
 app.get("/api/products/:productId", apiProductsController.apiProductGetOne)//buscar un producto
