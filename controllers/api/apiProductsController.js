@@ -1,9 +1,10 @@
 import Product from '../../models/Product.js'
+import createError from 'http-errors'
 
 export  async function apiProductsList(req, res, next) {
     try {
-        console.log('el usuario es', req.apiUserId)
             const userId = req.apiUserId
+
             const pageSize = 10
             const skip = parseInt(req.query.skip) || 0
             const limit = parseInt(req.query.limit) || pageSize
@@ -56,8 +57,9 @@ export  async function apiProductsList(req, res, next) {
 // Busca un producto
 export async function apiProductGetOne(req, res, next) {
     try {
+        const userId = req.apiUserId
         const productId = req.params.productId
-        const product = await Product.findById(productId)
+        const product = await Product.findOne({ _id: productId, owner: userId})
         res.json({ result: product })
     } catch (error) {
         next(error)
@@ -67,9 +69,11 @@ export async function apiProductGetOne(req, res, next) {
 // Nuevo producto
 export async function apiProductNew(req, res, next) {
     try {
+        const userId = req.apiUserId
         const productData = req.body
         // create product instance in memory
         const product = new Product(productData)
+        product.owner = userId
         product.image = req.file?.filename// añadimos la imagen
         // guardar product
         const savedProduct = await product.save()
@@ -83,11 +87,12 @@ export async function apiProductNew(req, res, next) {
 // Modifica un producto
 export async function apiProductUpdate (req,res,next){
     try {
+        const userId = req.apiUserId
         const productId = req.params.productId
         const productData = req.body
         productData.image = req.file?.filename
 
-        const updateProduct = await Product.findByIdAndUpdate(productId, productData,{
+        const updateProduct = await Product.findOneAndUpdate({ _id: productId, owner: userId},productData, {
             new: true// para obtener el documento actualizado
         })
         res.json({ result: updateProduct })
@@ -98,7 +103,24 @@ export async function apiProductUpdate (req,res,next){
 // Borra el producto
 export async function apiProductDelete(req, res, next) {
     try {
+        const userId = req.apiUserId
         const productId = req.params.productId
+
+        // validar el documento que queremos borrar pertenece al usuario
+        const product = await Product.findOne({ _id: productId})
+
+        //verificar si existe
+        if (!product) {
+            console.warn(`WARNING - el usuario ${userId} intentó eliminar un producto inexistente (${productId})`)
+            return next(createError(404))
+        }   
+        // comprobamos la propiedad antes de eliminar
+        //producto.owner es un ObjecId , y para compararlo con un strig necesitamos convertirlo a texto
+        if (product.owner.toString() !== userId){
+            console.warn(`WARNING - el usuario ${userId} intentó eliminar un producto que es propiedad de otro usuario`)
+            return next(createError(401))
+        }
+
         await Product.deleteOne({ _id: productId})
         res.json()
     } catch (error) {
