@@ -11,6 +11,7 @@ import * as langController from './controllers/langController.js'
 import * as apiProductsController from './controllers/api/apiProductsController.js'
 import swaggerMiddleware from './lib/swaggerMiddleware.js'
 import * as apiLoginController from './controllers/api/apiLoginController.js'
+import * as jwtAuth from './lib/jwtAuthMidedleware.js'
 
 
 // espero a que se conecte a la base de dato
@@ -37,11 +38,11 @@ app.use(express.static('public'))
  */
 app.post("/api/login", apiLoginController.loginJWT)
 // CRUD operation for products resource
-app.get("/api/products", apiProductsController.apiProductsList)//lista productos
-app.get("/api/products/:productId", apiProductsController.apiProductGetOne)//buscar un producto
-app.post("/api/products",upload.single("image"), apiProductsController. apiProductNew)//nuevo producto
-app.put("/api/products/:productId",upload.single("image"), apiProductsController.apiProductUpdate)//actualizar producto
-app.delete("/api/products/:productId",apiProductsController. apiProductDelete)
+app.get("/api/products", jwtAuth.guard, apiProductsController.apiProductsList)//lista productos
+app.get("/api/products/:productId", jwtAuth.guard, apiProductsController.apiProductGetOne)//buscar un producto
+app.post("/api/products", jwtAuth.guard, upload.single("image"), apiProductsController. apiProductNew)//nuevo producto
+app.put("/api/products/:productId", jwtAuth.guard, upload.single("image"), apiProductsController.apiProductUpdate)//actualizar producto
+app.delete("/api/products/:productId", jwtAuth.guard, apiProductsController. apiProductDelete)
 
 
 /**
