@@ -2,7 +2,8 @@ import Product from '../../models/Product.js'
 
 export  async function apiProductsList(req, res, next) {
     try {
-
+        console.log('el usuario es', req.apiUserId)
+            const userId = req.apiUserId
             const pageSize = 10
             const skip = parseInt(req.query.skip) || 0
             const limit = parseInt(req.query.limit) || pageSize
@@ -18,7 +19,7 @@ export  async function apiProductsList(req, res, next) {
         //http://localhost:3000/api/products/?sort=-price
         //http://localhost:3000/api/products/?fields=name -_id 
 
-        const filters = {}
+        const filters = {owner: userId}
     
         if ( typeof filterTag !== 'undefined' ) 
             filters.tags = filterTag
