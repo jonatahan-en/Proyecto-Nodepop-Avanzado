@@ -14,6 +14,7 @@ import * as apiLoginController from './controllers/api/apiLoginController.js'
 import * as jwtAuth from './lib/jwtAuthMidedleware.js'
 
 
+
 // espero a que se conecte a la base de dato
 console.log('Connecting to DB...')
 const { connection: mongooseConnection } = await connectMongoose()
@@ -56,7 +57,7 @@ app.get('/', homeController.index)
 app.get('/login', loginController.indexLogin)
 app.post('/login', loginController.postLogin)
 app.all('/logout', loginController.logout)
-app.get('/api-doc', swaggerMiddleware)
+app.use('/api-doc', swaggerMiddleware)
 
 { // products
   const productsRouter = express.Router()
