@@ -1,4 +1,8 @@
+import { REGEXP } from '../lib/utils.js';
 import { User } from '../models/index.js';
+import createError from 'http-errors'
+
+
 
 export async function indexLogin(req, res, next) {
   res.locals.error = '';
@@ -9,6 +13,25 @@ export async function indexLogin(req, res, next) {
 export async function postLogin(req, res, next) {
   try {
     const { email, password } = req.body;
+
+    //VALIDACIONES
+    
+        // Validar que email y password estén presentes
+        if (!email || !password) {
+          throw createError(400, 'Email y password son requeridos');
+      }
+
+      // Validar formato del email
+      const emailRegExp = new RegExp(REGEXP.mail);
+      if (!emailRegExp.test(email)) {
+          throw createError(400, 'El email no tiene un formato válido');
+      }
+
+    // Validar longitud del password
+      if (password.length < 3) {
+          throw createError(400, 'El password debe tener al menos 3 caracteres');
+      }
+      
 
     // buscar el usuario en la base de datos
     const user = await User.findOne({ email });
