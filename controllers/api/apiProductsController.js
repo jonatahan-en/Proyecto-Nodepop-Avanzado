@@ -13,11 +13,7 @@ export  async function apiProductsList(req, res, next) {
             const filterName = req.query.name
             const filterTag = req.query.tag
             const fields = req.query.fields
-        //ejemplos de uso de la api
-        //http://localhost:3000/api/products/?name=watches&price350
-        //http://localhost:3000/api/products/?limit=2&skip=2
-        //http://localhost:3000/api/products/?sort=-price
-        //http://localhost:3000/api/products/?fields=name -_id 
+
         const filters = {owner: userId}
     
         if ( typeof filterTag !== 'undefined' ) 

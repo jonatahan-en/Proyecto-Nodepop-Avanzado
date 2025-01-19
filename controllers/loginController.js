@@ -38,6 +38,7 @@ export async function postLogin(req, res, next) {
 
     // si no lo encuentro o la contraseña no coincide --> error
     if (!user || !(await user.comparePassword(password)) ) {
+      console.log('credenciales',password)
       res.locals.error = 'Invalid credentials';
       res.locals.email = email;
       res.render('login');

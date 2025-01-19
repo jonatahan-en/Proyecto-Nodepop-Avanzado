@@ -1,4 +1,8 @@
 # Nodepop Fundamentos
+   # Introducción:
+        Nodepop es una API RESTful diseñada para gestionar productos con funcionalidades avanzadas como filtros, paginación, autenticación mediante JWT y más. Es ideal para construir aplicaciones que necesiten manejar un catálogo de productos y usuarios.
+
+        La API requiere un token JWT para acceder a la mayoría de las rutas protegidas. Este token debe incluirse en el encabezado Authorization como Bearer <token> en herramientas como Postman.
 
 ## Deploy
 
@@ -33,28 +37,22 @@ To start in development mode:
 ```sh
 npm run dev
 ```
-## API
-```sh
-Base URL: http://localhost:3000/api
-```
-GET /api/products
-````json
-"result": [
-        {
-            "_id": "6782ff2aeea3da64a06dccf5",
-            "name": "watches",
-            "price": 350,
-            "image": "watch t55.jpg",
-            "tags": [
-                "mobile"
-            ],
-            "owner": "6782ff2aeea3da64a06dccee",
-            "__v": 0
-        },
-    ],
-    "count": 7
 
-```
+
+## API
+    ```sh
+    Base URL: http://localhost:3000/
+    ```
+    GET /api/products
+
+## LOGIN 
+        Iniciar sesión y obtener un token JWT (POST /api/login)
+
+        En el cuerpo de la solicitud, debes enviar un objeto JSON con el email y el password del usuario registrado:
+    
+## Uso del token JWT en Postman
+1.  Copia el token obtenido al iniciar sesión.
+2.  Cada solicitud protegida, añade el encabezado Authorization
 
 ## References
 
@@ -64,4 +62,3 @@ GET /api/products
 - https://getbootstrap.com/docs/5.3/examples/headers/
 - https://getbootstrap.com/docs/5.3/forms/form-control/
 - https://icons.getbootstrap.com/#install
-"# Proyecto-Nodepop-Avanzado" 
