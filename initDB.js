@@ -3,6 +3,7 @@ import readline from 'node:readline'
 import connectMongoose from './lib/connectMongoose.js'
 import Product from './models/Product.js'
 import User from './models/User.js'
+import mongoose from 'mongoose';
 
 
 const connection = await connectMongoose()
@@ -16,7 +17,7 @@ if(questionResponse.toLowerCase() !== 'yes') {
 
 await initUsers()
 await initProducts()
-connection.close()
+await mongoose.connection.close()
 
 
 
